@@ -13,8 +13,8 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts/1'); // Example API endpoint
-        setData(response.data);
+        const response = await axios.get('http://127.0.0.1:8000/books/v1/'); // Example API endpoint
+        setData(response.data.results);
       } catch (error) {
         setError(error);
       } finally {
@@ -27,15 +27,18 @@ function App() {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!data) return <div>No data available</div>;
 
   return (
-    <div className="App">
-      <Car name='henry' brand='nissan'></Car>
-      <br />
-      <h1>Example Data</h1>
-      <p>Title: {data.title}</p>
-      <p>Body: {data.body}</p>
+    <div>
+      <h1>List of Posts</h1>
+      <ul>
+        {data.map(post => (
+          <li key={post.id}>
+            <h2>{post.name}</h2>
+            <p>{post.pages}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
